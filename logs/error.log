@@ -1,0 +1,2 @@
+{"level":"error","message":"note not found with id","service":"user-service","timestamp":"2021-10-10T16:52:05.191Z"}
+{"level":"error","message":"error in connecting to database","service":"user-service","timestamp":"2021-10-10T17:05:23.099Z"}

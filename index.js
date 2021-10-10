@@ -2,6 +2,7 @@ const express = require('express');
 const app = express(); 
 const mongoose = require('mongoose');
 
+const logger = require('./config/logger')
 const dbConfig = require('./config/database.config.js');  
 const routes = require('./app/routes/note.routes.js');
 
@@ -21,9 +22,10 @@ app.use('/notes',routes)
 mongoose.connect(dbConfig.url, {
     useNewUrlParser: true
 }).then(() => {
-    console.log("Successfully connected to the database");    
+    console.log("Successfully connected to the database");
 }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
+    logger.error('error in connecting to database')
     process.exit();
 });
 

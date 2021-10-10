@@ -1,5 +1,5 @@
 const {createNewNote,findAllNotes,findNote,updateNote,deleteById} =require('../service/note.service.js')
-
+const logger = require('../../config/logger');
 // Create a Note
 const create = (req,res) => {
     let title = req.body.title || "Untitled Note"
@@ -44,6 +44,7 @@ const findAll = (req,res) => {
                 }
             })
         }
+        logger.info('responded with all notes')
         res.status(200).json(response)
     }).catch(err => {
         res.status(500).send({
@@ -64,6 +65,7 @@ const findOne = (req,res) => {
         }
         res.send({Note:note})
     }).catch(err => {
+        logger.error("note not found with id")
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
                 message: "Note not found with id " + id
@@ -89,6 +91,7 @@ const update = (req,res) => {
         }
         res.send({Note:note})
     }).catch(err => {
+        logger.error("note not found with id")
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
                 message: "Note not found with id " + id
