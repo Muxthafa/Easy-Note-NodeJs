@@ -13,3 +13,16 @@
 {"level":"info","message":"connected to database","service":"user-service","timestamp":"2021-10-10T17:14:38.482Z"}
 {"level":"info","message":"connected to database","service":"user-service","timestamp":"2021-10-10T17:16:04.442Z"}
 {"level":"info","message":"connected to database","service":"user-service","timestamp":"2021-10-10T17:18:47.381Z"}
+{"level":"info","message":"responded with all notes","service":"user-service","timestamp":"2021-10-11T02:23:49.537Z"}
+{"level":"info","message":"responded with all notes","service":"user-service","timestamp":"2021-10-11T03:00:06.601Z"}
+{"level":"info","message":"responded with all notes","service":"user-service","timestamp":"2021-10-11T03:09:00.272Z"}
+{"level":"info","message":"responded with all notes","service":"user-service","timestamp":"2021-10-11T03:11:55.401Z"}
+{"level":"info","message":"responded with all notes","service":"user-service","timestamp":"2021-10-11T03:56:11.733Z"}
+{"level":"info","message":"responded with all notes","service":"user-service","timestamp":"2021-10-11T13:59:21.965Z"}
+{"level":"error","message":"note not found with id","service":"user-service","timestamp":"2021-10-11T14:00:21.518Z"}
+{"level":"error","message":"note not found with id","service":"user-service","timestamp":"2021-10-11T14:01:13.914Z"}
+{"level":"error","message":"note not found with id","service":"user-service","timestamp":"2021-10-11T14:03:13.878Z"}
+{"level":"info","message":"responded with all notes","service":"user-service","timestamp":"2021-10-11T14:03:29.300Z"}
+{"level":"info","message":"responded with all notes","service":"user-service","timestamp":"2021-10-11T14:04:03.257Z"}
+{"level":"info","message":"responded with all notes","service":"user-service","timestamp":"2021-10-11T14:06:21.845Z"}
+{"level":"info","message":"responded with all notes","service":"user-service","timestamp":"2021-10-11T14:11:56.898Z"}
