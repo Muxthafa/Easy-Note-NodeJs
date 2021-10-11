@@ -1,5 +1,0 @@
-{"level":"error","message":"note not found with id","service":"user-service","timestamp":"2021-10-10T16:52:05.191Z"}
-{"level":"error","message":"error in connecting to database","service":"user-service","timestamp":"2021-10-10T17:05:23.099Z"}
-{"level":"error","message":"note not found with id","service":"user-service","timestamp":"2021-10-11T14:00:21.518Z"}
-{"level":"error","message":"note not found with id","service":"user-service","timestamp":"2021-10-11T14:01:13.914Z"}
-{"level":"error","message":"note not found with id","service":"user-service","timestamp":"2021-10-11T14:03:13.878Z"}
