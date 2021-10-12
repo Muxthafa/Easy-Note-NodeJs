@@ -11,15 +11,13 @@ const logger = require("../../config/logger");
  *request&response as parameters
  *handles the request made on route
  */
-const create = (req, res) => {
+const create = (req, res,next) => {
   let title = req.body.title || "Untitled Note";
   let content = req.body.content;
   createNewNote(title, content, (error, data) => {
     if (error) {
-      res.status(500).send({
-        message:
-          error.message || "Some error occurred while creating the Note.",
-      });
+      const error = error.message || "Some error occurred while creating the Note."
+      return next(error)
     }
     res.status(200).json({
       message: "created note successfully",
@@ -40,16 +38,13 @@ const create = (req, res) => {
  *request&response as parameters
  *handles the request made on route
  */
-const findAll = (req, res) => {
+const findAll = (req, res, next) => {
   findAllNotes((error, data) => {
     if (error) {
-      logger.error("Some error occurred while creating the Note");
-      res.status(500).send({
-        message: err.message || "Some error occurred while creating the Note.",
-      });
+      return next(error)
     }
     if (!data) {
-      res.status(500).send({
+      res.status(404).send({
         message: "no data found",
       });
     }
@@ -76,22 +71,14 @@ const findAll = (req, res) => {
  *request&response as parameters
  *handles the request made on route
  */
-const findOne = (req, res) => {
+const findOne = (req, res, next) => {
   let id = req.params.noteId;
   findNote(id, (error, data) => {
     if (error) {
-      logger.error("note not found with id");
-      if (error.kind === "ObjectId") {
-        return res.status(404).send({
-          message: "Note not found with id (catch)" + id,
-        });
-      }
-      return res.status(500).send({
-        message: "Error retrieving note with id " + id,
-      });
+      return next(error)
     }
     if (!data) {
-      res.status(500).send({
+      res.status(404).send({
         message: "no data found",
       });
     }
@@ -109,18 +96,15 @@ const update = (req, res) => {
   let content = req.body.content;
   updateNote(id, title, content, (error, data) => {
     if (error) {
-      logger.error("note not found with id");
       if (error.kind === "ObjectId") {
         return res.status(404).send({
           message: "Note not found with id (catch)" + id,
         });
       }
-      return res.status(500).send({
-        message: "Error retrieving note with id " + id,
-      });
+      return next(error)
     }
     if (!data) {
-      res.status(500).send({
+      res.status(404).send({
         message: "no data found",
       });
     }
@@ -132,22 +116,14 @@ const update = (req, res) => {
  *request&response as parameters
  *handles the request made on route
  */
-const deleteOne = (req, res) => {
+const deleteOne = (req, res,next) => {
   let id = req.params.noteId;
   deleteById(id, (error, data) => {
     if (error) {
-      logger.error("note not found with id");
-      if (error.kind === "ObjectId") {
-        return res.status(404).send({
-          message: "Note not found with id (catch)" + id,
-        });
-      }
-      return res.status(500).send({
-        message: "Error retrieving note with id " + id,
-      });
+      return next(error)
     }
     if (!data) {
-      res.status(500).send({
+      res.status(404).send({
         message: "no data found",
       });
     }
