@@ -26,15 +26,14 @@ app.use("/users", routesUser);
 //all requests apart from /notes handled here
 app.all('*',(req,res,next)=>{
   const error = new Error("Requested URL not found")
-  console.log("get error");
   error.code = 404
   next(error)
 })
 
 //middleware which handles global error
 app.use((error,req,res,next) =>{
-  logger.error("some error occured");
   const code = error.code || 500
+  logger.error("some error occured, error-code: "+code);
   res.status(code).json({
     message: error.message,
   })
