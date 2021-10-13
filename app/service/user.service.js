@@ -3,8 +3,8 @@ const {createUser,findUsers,findSingleUser,findSingleUserAndUpdate,findAndRemove
 /*function call to create a new user
  *returns a callback
  */
- const createNewUser = (name, age, address,phone,email, callback) => {
-    createUser(name, age, address,phone,email, (error, data) => {
+ const createNewUser = (userDetails, callback) => {
+    createUser(userDetails, (error, data) => {
       return error ? callback(error, null) : callback(null, data);
     });
   };
@@ -30,8 +30,8 @@ const findUser = (findId, callback) => {
   /* Find user and update it with the request body
  *returns a callback
  */
-const updateUser = (findId, name, age,address,phone,email, callback) => {
-    findSingleUserAndUpdate(findId, name,age,address,phone, email, (error, data) => {
+const updateUser = (userDetails, callback) => {
+    findSingleUserAndUpdate(userDetails, (error, data) => {
       return error ? callback(error, null) : callback(null, data);
     });
   };

@@ -12,12 +12,15 @@ const {
    *handles the request made on route
    */
   const create = (req, res,next) => {
-    let name = req.body.name
-    let age = req.body.age
-    let address = req.body.address
-    let phone = req.body.phone
-    let email = req.body.email
-    createNewUser(name,age,address,phone,email, (error, data) => {
+    let userDetails = {
+     name: req.body.name,
+     age: req.body.age,
+     address: req.body.address,
+     phone: req.body.phone,
+     email: req.body.email,
+    }
+    
+    createNewUser(userDetails, (error, data) => {
         if (error) 
             return next(error)
       res.status(200).json({
@@ -97,14 +100,16 @@ const {
    *request&response as parameters
    *handles the request made on route
    */
-  const update = (req, res) => {
-    let id = req.params.userId;
-    let name = req.body.name
-    let age = req.body.age
-    let address = req.body.address
-    let phone = req.body.phone
-    let email = req.body.email
-    updateUser(id, name,age,address,phone, email, (error, data) => {
+  const update = (req, res,next) => {
+    let userDetails = {
+      id: req.params.userId,
+      name: req.body.name,
+      age: req.body.age,
+      address: req.body.address,
+      phone: req.body.phone,
+      email: req.body.email,
+     }
+    updateUser(userDetails, (error, data) => {
       if (error) {
         if (error.kind === "ObjectId") {
           return res.status(404).send({

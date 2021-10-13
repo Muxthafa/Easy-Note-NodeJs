@@ -7,7 +7,7 @@ const UserSchema = mongoose.Schema(
     age: {type:Number, required:true, integer: true},
     address: String,
     phone: Number,
-    email: String
+    email: {type:String, required:true, unique: true}
   },
   {
     timestamps: true,
@@ -19,13 +19,13 @@ const User = mongoose.model("User", UserSchema);
 /* Creates a User
  *with given name,age,address,phone &email
  */
-const createUser = (name, age, address,phone,email,callback) => {
+const createUser = (userDetails,callback) => {
     const user = new User({
-      name: name,
-      age:age,
-      address:address,
-      phone:phone,
-      email:email
+      name: userDetails.name,
+      age:userDetails.age,
+      address: userDetails.address,
+      phone: userDetails.phone,
+      email: userDetails.email
     });
     // Save user in the database
     return user.save({}, (error, data) => {
@@ -56,10 +56,10 @@ const findSingleUser = (id, callback) => {
  *name,age,address,phone &email as parameters
  *returns a callback
  */
-const findSingleUserAndUpdate = (id,name, age, address,phone,email, callback) => {
+const findSingleUserAndUpdate = (userDetails, callback) => {
     return User.findByIdAndUpdate(
-      id,
-      { name: name, age: age, address:address, phone:phone, email:email},
+      userDetails.id,
+      { name: userDetails.name, age: userDetails.age, address: userDetails.address, phone: userDetails.phone, email: userDetails.email},
       { new: true },
       (error, data) => {
         return error ? callback(error, null) : callback(null, data);
