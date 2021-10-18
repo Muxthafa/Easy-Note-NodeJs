@@ -6,6 +6,7 @@ const {
     deleteById,
   } = require("../service/user.service.js");
   const logger = require("../../config/logger");
+  const {createCustomError} = require('../errors/custom-error')
   
   /* Creates an user
    *request,response&next as parameters
@@ -21,8 +22,8 @@ const {
     }
     
     createNewUser(userDetails, (error, data) => {
-        if (error) 
-            return next(error)
+      if (error) 
+        return next(createCustomError("Some error occurred while creating the User.",500))
       res.status(200).json({
         message: "created user successfully",
         createdUser: {
@@ -48,7 +49,7 @@ const {
   const findAll = (req, res, next) => {
     findAllUsers((error, data) => {
       if (error) {
-        return next(error)
+        return next(createCustomError("Some error occurred while fetching all the Users.",500))
       }
       if (!data) {
         res.status(404).send({
@@ -85,7 +86,7 @@ const {
     let id = req.params.userId;
     findUser(id, (error, data) => {
       if (error) {
-        return next(error)
+        return next(createCustomError(`error occured while fetching user data with id ${id}`,500))
       }
       if (!data) {
         return res.status(404).send({
@@ -113,10 +114,10 @@ const {
       if (error) {
         if (error.kind === "ObjectId") {
           return res.status(404).send({
-            message: "User not found with id (catch)" + id,
+            message: "User not found with id" +userDetails.id,
           });
         }
-        return next(error)
+        return next(createCustomError("Some error occurred while Updating the user.",500))
       }
       if (!data) {
         return res.status(500).send({
@@ -135,7 +136,7 @@ const {
     let id = req.params.userId;
     deleteById(id, (error, data) => {
       if (error) {
-        return next(error)
+        return next(createCustomError(`could not delete the user with is ${id}`,500))
       }
       if (!data) {
         return res.status(404).send({

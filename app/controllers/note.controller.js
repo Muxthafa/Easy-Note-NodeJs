@@ -6,6 +6,7 @@ const {
   deleteById,
 } = require("../service/note.service.js");
 const logger = require("../../config/logger");
+const {createCustomError} = require('../errors/custom-error')
 
 /* Creates a Note
  *request&response as parameters
@@ -16,8 +17,7 @@ const create = (req, res,next) => {
   let content = req.body.content;
   createNewNote(title, content, (error, data) => {
     if (error) {
-      const error = error.message || "Some error occurred while creating the Note."
-      return next(error)
+      return next(createCustomError("Some error occurred while creating the Note.",500))
     }
     res.status(200).json({
       message: "created note successfully",
@@ -41,7 +41,7 @@ const create = (req, res,next) => {
 const findAll = (req, res, next) => {
   findAllNotes((error, data) => {
     if (error) {
-      return next(error)
+      return next(createCustomError("Some error occurred while fetching all notes",500))
     }
     if (!data) {
       res.status(404).send({
@@ -75,7 +75,7 @@ const findOne = (req, res, next) => {
   let id = req.params.noteId;
   findNote(id, (error, data) => {
     if (error) {
-      return next(error)
+      return next(createCustomError(`no note found with id: ${id}`,500))
     }
     if (!data) {
       res.status(404).send({
@@ -120,7 +120,7 @@ const deleteOne = (req, res,next) => {
   let id = req.params.noteId;
   deleteById(id, (error, data) => {
     if (error) {
-      return next(error)
+      return next(createCustomError(`coul not delete the note with id: ${id}`,500))
     }
     if (!data) {
       res.status(404).send({

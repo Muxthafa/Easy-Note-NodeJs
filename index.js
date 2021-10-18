@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
 
-const logger = require("./config/logger");
-
 const routesNote = require("./app/routes/note.routes.js");
 const routesUser = require("./app/routes/user.routes.js");
+const errorHandler = require("./app/middleware/error.middleware.js");
+const {createCustomError} = require('./app/errors/custom-error')
 const dbConnect = require("./config/db/db.connect.js")
 /*
  *middleware function
@@ -25,19 +25,11 @@ app.use("/users", routesUser);
 
 //all requests apart from /notes handled here
 app.all('*',(req,res,next)=>{
-  const error = new Error("Requested URL not found")
-  error.code = 404
-  next(error)
+  next(createCustomError(`Requested URL route ${req.url} is not found`,404))
 })
 
-//middleware which handles global error
-app.use((error,req,res,next) =>{
-  const code = error.code || 500
-  logger.error("some error occured, error-code: "+code);
-  res.status(code).json({
-    message: error.message,
-  })
-})
+//express middleware global error handler
+app.use(errorHandler)
 
 //server creation with port number 3000
 app.listen(3000, () => {

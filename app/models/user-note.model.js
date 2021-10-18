@@ -20,7 +20,7 @@ const UserNote = mongoose.model("user-note", UserNoteSchema);
     user: userId,
     note: noteId
   });
-  // Save Note in the database
+  // Save User Note in the database
   return userNote.save({}, (error, data) => {
     return error ? callback(error, null) : callback(null, data);
   });
