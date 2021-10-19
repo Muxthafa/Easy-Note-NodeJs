@@ -1,7 +1,10 @@
-const {createUser,findUsers,findSingleUser,findSingleUserAndUpdate,findAndRemove} = require("../models/user.model.js")
+const {createUser,findUsers,findSingleUser,findSingleUserAndUpdate,findAndRemove,findEmail} = require("../models/user.model.js")
+const {createToken} = require('../utility/user.jwt')
 
-/*function call to create a new user
- *returns a callback
+/**
+ * create a new user
+ * @param userDetails 
+ * @param callback 
  */
  const createNewUser = (userDetails, callback) => {
     createUser(userDetails, (error, data) => {
@@ -9,17 +12,21 @@ const {createUser,findUsers,findSingleUser,findSingleUserAndUpdate,findAndRemove
     });
   };
 
-/*query to find all the users
- *returns a callback
+/**
+ * find all the users
+ * @param callback 
  */
 const findAllUsers = (callback) => {
     findUsers((error, data) => {
+      console.log(data);
       return error ? callback(error, null) : callback(null, data);
     });
   };
 
-  /*query to find a single user
- *returns a callback
+/**
+ * find a single user
+ * @param findId 
+ * @param callback 
  */
 const findUser = (findId, callback) => {
     findSingleUser(findId, (error, data) => {
@@ -27,8 +34,10 @@ const findUser = (findId, callback) => {
     });
   };
 
-  /* Find user and update it with the request body
- *returns a callback
+/**
+ * Find user and update it with the request body
+ * @param userDetails 
+ * @param callback 
  */
 const updateUser = (userDetails, callback) => {
     findSingleUserAndUpdate(userDetails, (error, data) => {
@@ -36,8 +45,10 @@ const updateUser = (userDetails, callback) => {
     });
   };
 
-  /*query to delete an user
- *returns a callback
+/**
+ * deletes an user by passing the userId
+ * @param findId 
+ * @param callback 
  */
 const deleteById = (findId, callback) => {
     findAndRemove(findId, (error, data) => {
@@ -45,4 +56,16 @@ const deleteById = (findId, callback) => {
     });
   };
 
-  module.exports = {createNewUser,findAllUsers,findUser,updateUser,deleteById,findAndRemove}
+/**
+ * find the email exists or not
+ * creates token if the email is resent
+ * @param email 
+ * @param callback 
+ */
+const findUserEmail = (email, callback) => {
+  findEmail(email , (error,data) => {
+    return error ? callback(error, null) : callback(null, createToken(data));
+  })
+}
+
+module.exports = {createNewUser,findAllUsers,findUser,updateUser,deleteById,findAndRemove, findUserEmail}

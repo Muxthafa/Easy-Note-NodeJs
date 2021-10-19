@@ -1,7 +1,7 @@
-/*
-*CustomError extends the error class
-*overrides the parent error class message
-*/ 
+/**
+ * CustomError extends the error class
+ * overrides the parent error class message
+ */
 class CustomError extends Error{
     constructor(message,statusCode){
         super(message)

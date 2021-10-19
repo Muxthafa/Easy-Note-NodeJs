@@ -16,8 +16,11 @@ const UserSchema = mongoose.Schema(
 
 const User = mongoose.model("User", UserSchema);
 
-/* Creates a User
- *with given name,age,address,phone &email
+/**
+ * Query to create a User
+ * @param userDetails 
+ * @param callback 
+ * @returns 
  */
 const createUser = (userDetails,callback) => {
     const user = new User({
@@ -33,8 +36,10 @@ const createUser = (userDetails,callback) => {
     });
   };
 
-  /*find all users
- *returns a callback
+/**
+ * Query to find all users
+ * @param callback 
+ * @returns 
  */
 const findUsers = (callback) => {
     return User.find({}, (error, data) => {
@@ -42,9 +47,11 @@ const findUsers = (callback) => {
     });
   };
 
-  /*find one specific user
- *user id as a paramter
- *returns a callback
+/**
+ * Query to find one specific user
+ * @param id 
+ * @param callback 
+ * @returns 
  */
 const findSingleUser = (id, callback) => {
     return User.findById(id, (error, data) => {
@@ -52,9 +59,11 @@ const findSingleUser = (id, callback) => {
     });
   };
   
-  /*find and update user
- *name,age,address,phone &email as parameters
- *returns a callback
+/**
+ * Query to find and update the user
+ * @param userDetails 
+ * @param callback 
+ * @returns 
  */
 const findSingleUserAndUpdate = (userDetails, callback) => {
     return User.findByIdAndUpdate(
@@ -67,9 +76,11 @@ const findSingleUserAndUpdate = (userDetails, callback) => {
     );
   };
 
-  /*find and remove an user
- *user id as a parameter
- *returns a callback
+/**
+ * Query to find and remove an userer id as a parameter
+ * @param id 
+ * @param callback 
+ * @returns 
  */
 const findAndRemove = (id, callback) => {
     return User.findByIdAndDelete(id, (error, data) => {
@@ -77,4 +88,16 @@ const findAndRemove = (id, callback) => {
     });
   };
 
-  module.exports = {createUser,findUsers,findSingleUser,findSingleUserAndUpdate,findAndRemove}
+  /**
+   * Query to search the email in the database
+   * @param email 
+   * @param callback 
+   * @returns 
+   */
+const findEmail = (email, callback) => {
+    return User.findOne({email}, (error,data) => {
+      return error ? callback(error, null) : callback(null, data);
+    })
+}
+
+module.exports = {createUser,findUsers,findSingleUser,findSingleUserAndUpdate,findAndRemove, findEmail}

@@ -4,13 +4,32 @@ const {
     findUser,
     updateUser,
     deleteById,
+    findUserEmail
   } = require("../service/user.service.js");
   const logger = require("../../config/logger");
-  const {createCustomError} = require('../errors/custom-error')
+  const {createCustomError} = require('../error-handler/custom-error')
   
-  /* Creates an user
-   *request,response&next as parameters
-   *handles the request made on route
+ /**
+  * authenticates the user
+  * @param req 
+  * @param res 
+  * @param next 
+  */
+  const login = (req,res,next) => {
+    const {email} = req.body
+    findUserEmail(email, (error,data) =>{
+      if (error) {
+        return next(createCustomError(`Error occured while logging in`,500))
+      }
+      res.send({ data });
+    })
+  }
+
+  /**
+   * Creates an user
+   * @param req 
+   * @param res 
+   * @param next 
    */
   const create = (req, res,next) => {
     let userDetails = {
@@ -23,7 +42,7 @@ const {
     
     createNewUser(userDetails, (error, data) => {
       if (error) 
-        return next(createCustomError("Some error occurred while creating the User.",500))
+        return next(createCustomError("Error occurred while creating the User.",500))
       res.status(200).json({
         message: "created user successfully",
         createdUser: {
@@ -41,15 +60,17 @@ const {
       });
     });
   };
-  
-  /* Retrieve and return all users from the database.
-   *request,response&next as parameters
-   *handles the request made on route
+
+  /**
+   * Retrieve and return all users from the database.
+   * @param req 
+   * @param res 
+   * @param next 
    */
   const findAll = (req, res, next) => {
     findAllUsers((error, data) => {
       if (error) {
-        return next(createCustomError("Some error occurred while fetching all the Users.",500))
+        return next(createCustomError("Error occurred while fetching all the Users.",500))
       }
       if (!data) {
         res.status(404).send({
@@ -78,15 +99,17 @@ const {
     });
   };
   
-  /* Find a single user with a userId
-   *request,response&next as parameters
-   *handles the request made on route
+  /**
+   * Find a single user with a userId
+   * @param req 
+   * @param res 
+   * @param next 
    */
   const findOne = (req, res, next) => {
     let id = req.params.userId;
     findUser(id, (error, data) => {
       if (error) {
-        return next(createCustomError(`error occured while fetching user data with id ${id}`,500))
+        return next(createCustomError(`Error occured while fetching user data with id ${id}`,500))
       }
       if (!data) {
         return res.status(404).send({
@@ -97,9 +120,11 @@ const {
     });
   };
   
-  /* Update a user identified by the userId in the request
-   *request&response as parameters
-   *handles the request made on route
+  /**
+   * Update a user identified by the userId in the request
+   * @param req 
+   * @param res 
+   * @param next 
    */
   const update = (req, res,next) => {
     let userDetails = {
@@ -117,7 +142,7 @@ const {
             message: "User not found with id" +userDetails.id,
           });
         }
-        return next(createCustomError("Some error occurred while Updating the user.",500))
+        return next(createCustomError("Error occurred while Updating the user.",500))
       }
       if (!data) {
         return res.status(500).send({
@@ -128,9 +153,11 @@ const {
     });
   };
   
-  /* Delete a user with the specified userId in the request
-   *request&response as parameters
-   *handles the request made on route
+  /**
+   * Delete a user with the specified userId in the request
+   * @param req 
+   * @param res 
+   * @param next 
    */
   const deleteOne = (req, res,next) => {
     let id = req.params.userId;
@@ -147,4 +174,4 @@ const {
     });
   };
   
-  module.exports = { create, findAll, findOne,update, deleteOne}; 
+  module.exports = { create, findAll, findOne,update, deleteOne, login}; 

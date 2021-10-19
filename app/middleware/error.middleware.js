@@ -1,5 +1,5 @@
 const logger = require("../../config/logger");
-const {CustomError} = require('../errors/custom-error')
+const {CustomError} = require('../error-handler/custom-error')
 
 //middleware which handles global error
 module.exports = (error,req,res,next) =>{

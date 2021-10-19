@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router(); //middleware creates route handler
-
 const users = require("../controllers/user.controller.js");
-// const validate = require("../middleware/user.middleware.js");
-const validate = require("../controllers/user.validation.js");
+const validate = require("../validation/user.validation.js");
+
+//user login route 
+router.post('/login',users.login)
+
 //create a new user
 router.post("/", validate,users.create);
 

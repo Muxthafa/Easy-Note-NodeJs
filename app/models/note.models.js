@@ -13,8 +13,12 @@ const NoteSchema = mongoose.Schema(
 
 const Note = mongoose.model("Note", NoteSchema);
 
-/* Creates a Note
- *with given title and content
+/**
+ * Query to create a note
+ * @param title 
+ * @param content 
+ * @param callback 
+ * @returns 
  */
 const createNote = (title, content, callback) => {
   const note = new Note({
@@ -27,8 +31,10 @@ const createNote = (title, content, callback) => {
   });
 };
 
-/*find all notes
- *returns a callback
+/**
+ * Query to find all notes
+ * @param callback 
+ * @returns 
  */
 const findNotes = (callback) => {
   return Note.find({}, (error, data) => {
@@ -36,9 +42,11 @@ const findNotes = (callback) => {
   });
 };
 
-/*find one specific note
- *note id as a paramter
- *returns a callback
+/**
+ * Query to find one specific note
+ * @param id 
+ * @param callback 
+ * @returns 
  */
 const findSingleNote = (id, callback) => {
   return Note.findById(id, (error, data) => {
@@ -46,9 +54,13 @@ const findSingleNote = (id, callback) => {
   });
 };
 
-/*find and update note
- *id,title&content as paramters
- *returns a callback
+/**
+ * Query to find and update note
+ * @param id 
+ * @param title 
+ * @param content 
+ * @param callback 
+ * @returns 
  */
 const findSingleNoteAndUpdate = (id, title, content, callback) => {
   return Note.findByIdAndUpdate(
@@ -61,9 +73,11 @@ const findSingleNoteAndUpdate = (id, title, content, callback) => {
   );
 };
 
-/*find and remove a note
- *note id as a parameter
- *returns a callback
+/**
+ * Query to find and remove a note
+ * @param id 
+ * @param callback 
+ * @returns 
  */
 const findAndRemove = (id, callback) => {
   return Note.findByIdAndDelete(id, (error, data) => {
