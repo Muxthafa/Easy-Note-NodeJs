@@ -1,15 +1,26 @@
 const {createUser,findUsers,findSingleUser,findSingleUserAndUpdate,findAndRemove,findEmail} = require("../models/user.model.js")
 const {createToken} = require('../utility/user.jwt')
+const {bcryptPass, verifyPass} = require('../utility/user.bcrypt.js')
+const bcrypt = require('bcrypt');
 
 /**
- * create a new user
+ * create a new user 
+ * encrypts the password
  * @param userDetails 
  * @param callback 
  */
  const createNewUser = (userDetails, callback) => {
-    createUser(userDetails, (error, data) => {
-      return error ? callback(error, null) : callback(null, data);
-    });
+    bcryptPass(userDetails.password, (err, hash) => {
+      if(err){
+        callback(err,null)
+      }else{
+        userDetails = {...userDetails,password: hash}
+        createUser(userDetails, (error, data) => {
+          return error ? callback(error, null) : callback(null, data);
+        });
+      }
+    })
+    
   };
 
 /**
@@ -18,7 +29,6 @@ const {createToken} = require('../utility/user.jwt')
  */
 const findAllUsers = (callback) => {
     findUsers((error, data) => {
-      console.log(data);
       return error ? callback(error, null) : callback(null, data);
     });
   };
@@ -62,9 +72,20 @@ const deleteById = (findId, callback) => {
  * @param email 
  * @param callback 
  */
-const findUserEmail = (email, callback) => {
+const findUserEmail = (email,password, callback) => {
   findEmail(email , (error,data) => {
-    return error ? callback(error, null) : callback(null, createToken(data));
+    if(data){
+      verifyPass(password,data.password, (error,result) =>{
+          if(error){
+            callback(error,null)
+          }else{
+            let token = createToken(data)
+            return callback(null, token);
+          }
+      }) 
+    }else{
+      callback(error,"Email not found")
+    }
   })
 }
 

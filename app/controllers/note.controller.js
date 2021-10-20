@@ -10,12 +10,12 @@ const {createCustomError} = require('../error-handler/custom-error')
 
 /**
  * Creates a Note
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * @param req 
+ * @param res 
+ * @param next 
  */
 const create = (req, res,next) => {
-  let title = req.body.title || "Untitled Note";
+  let title = req.body.title;
   let content = req.body.content;
   createNewNote(title, content, (error, data) => {
     if (error) {
@@ -24,9 +24,6 @@ const create = (req, res,next) => {
     res.status(200).json({
       message: "created note successfully",
       createdNote: {
-        title: data.title,
-        content: data.content,
-        _id: data.id,
         request: {
           type: "GET",
           url: "http://localhost:3000/notes/" + data._id,
@@ -38,9 +35,9 @@ const create = (req, res,next) => {
 
 /**
  * Retrieve and return all notes from the database.
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * @param req 
+ * @param res 
+ * @param next 
  */
 const findAll = (req, res, next) => {
   findAllNotes((error, data) => {
@@ -73,9 +70,9 @@ const findAll = (req, res, next) => {
 
 /**
  * Find a single note with a noteId
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * @param req 
+ * @param res 
+ * @param next 
  */
 const findOne = (req, res, next) => {
   let id = req.params.noteId;
@@ -94,8 +91,8 @@ const findOne = (req, res, next) => {
 
 /**
  * Update a note identified by the noteId in the request
- * @param {*} req 
- * @param {*} res 
+ * @param req 
+ * @param res 
  */
 const update = (req, res) => {
   let id = req.params.noteId;
@@ -121,9 +118,9 @@ const update = (req, res) => {
 
 /**
  * Delete a note with the specified noteId in the request
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * @param req 
+ * @param res 
+ * @param next 
  */
 const deleteOne = (req, res,next) => {
   let id = req.params.noteId;

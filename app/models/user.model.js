@@ -7,7 +7,8 @@ const UserSchema = mongoose.Schema(
     age: {type:Number, required:true, integer: true},
     address: String,
     phone: Number,
-    email: {type:String, required:true, unique: true}
+    email: {type:String, required:true, unique: true},
+    password : { type: String , required: true}
   },
   {
     timestamps: true,
@@ -28,7 +29,8 @@ const createUser = (userDetails,callback) => {
       age:userDetails.age,
       address: userDetails.address,
       phone: userDetails.phone,
-      email: userDetails.email
+      email: userDetails.email,
+      password: userDetails.password
     });
     // Save user in the database
     return user.save({}, (error, data) => {

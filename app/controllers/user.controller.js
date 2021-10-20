@@ -16,12 +16,12 @@ const {
   * @param next 
   */
   const login = (req,res,next) => {
-    const {email} = req.body
-    findUserEmail(email, (error,data) =>{
+    const {email,password} = req.body
+    findUserEmail(email,password, (error,data) =>{
       if (error) {
-        return next(createCustomError(`Error occured while logging in`,500))
+        return next(createCustomError(error,500))
       }
-      res.send({ data });
+      res.send({ message });
     })
   }
 
@@ -38,25 +38,18 @@ const {
      address: req.body.address,
      phone: req.body.phone,
      email: req.body.email,
+     password: req.body.password
     }
     
     createNewUser(userDetails, (error, data) => {
       if (error) 
-        return next(createCustomError("Error occurred while creating the User.",500))
+        return next(createCustomError("Error occurred while creating the User.",404))
       res.status(200).json({
-        message: "created user successfully",
-        createdUser: {
-            name: data.name,
-            age: data.age,
-            address: data.address,
-            phone: data.phone,
-            email: data.email,
-          _id: data.id,
-          request: {
+        message: `created user ${data.name} successfully`,
+        request: {
             type: "GET",
             url: "http://localhost:3000/users/" + data._id,
           },
-        },
       });
     });
   };
@@ -70,7 +63,7 @@ const {
   const findAll = (req, res, next) => {
     findAllUsers((error, data) => {
       if (error) {
-        return next(createCustomError("Error occurred while fetching all the Users.",500))
+        return next(createCustomError("Error occurred while fetching all the Users.",404))
       }
       if (!data) {
         res.status(404).send({
@@ -86,6 +79,7 @@ const {
             address: user.address,
             phone: user.phone,
             email: user.email,
+            password: user.password,
           _id: user.id,
             request: {
               type: "GET",
@@ -109,7 +103,7 @@ const {
     let id = req.params.userId;
     findUser(id, (error, data) => {
       if (error) {
-        return next(createCustomError(`Error occured while fetching user data with id ${id}`,500))
+        return next(createCustomError(`Error occured while fetching user data with id ${id}`,404))
       }
       if (!data) {
         return res.status(404).send({
@@ -142,7 +136,7 @@ const {
             message: "User not found with id" +userDetails.id,
           });
         }
-        return next(createCustomError("Error occurred while Updating the user.",500))
+        return next(createCustomError("Error occurred while Updating the user.",404))
       }
       if (!data) {
         return res.status(500).send({
@@ -163,7 +157,7 @@ const {
     let id = req.params.userId;
     deleteById(id, (error, data) => {
       if (error) {
-        return next(createCustomError(`could not delete the user with is ${id}`,500))
+        return next(createCustomError(`could not delete the user with is ${id}`,404))
       }
       if (!data) {
         return res.status(404).send({

@@ -6,6 +6,7 @@ const routesUser = require("./app/routes/user.routes.js");
 const errorHandler = require("./app/middleware/error.middleware.js");
 const {createCustomError} = require('./app/error-handler/custom-error')
 const dbConnect = require("./config/db/db.connect.js")
+
 require('dotenv').config()
 
 //middleware function to parse incoming post requests

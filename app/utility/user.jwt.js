@@ -6,14 +6,8 @@ const dotenv = require("dotenv").config();
  * @param data 
  * @returns object containing message&token
  */
-const createToken = (data) => {
-  if (!data)
-    return {
-      message: "enter the email",
-    };
-  const { _id, email } = data;
-
-  const token = jwt.sign({ _id, email }, process.env.PRIVATE_KEY, {
+const createToken = (email,id) => {
+  const token = jwt.sign({ id, email }, process.env.PRIVATE_KEY, {
     expiresIn: "1d",
   });
   return {

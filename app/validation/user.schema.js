@@ -9,7 +9,8 @@ const userSchema = joi.object({
     age:joi.number().integer().max(100).required(),
     address: joi.string(),
     phone: joi.number().integer().min(1000000000).max(9999999999),
-    email: joi.string().email().required()
+    email: joi.string().email().required(),
+    password: joi.string().required().min(3).max(15)
 })
 
 module.exports={userSchema}
