@@ -7,6 +7,9 @@ const errorHandler = require("./app/middleware/error.middleware.js");
 const {createCustomError} = require('./app/error-handler/custom-error')
 const dbConnect = require("./config/db/db.connect.js")
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');  //swagger integration
+
 require('dotenv').config()
 
 //middleware function to parse incoming post requests
@@ -16,6 +19,9 @@ app.use(
   })
 );
 app.use(express.json());
+
+//swagger ui for documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //all requests starting with notes in the URL are handled by routes
 app.use("/notes", routesNote);

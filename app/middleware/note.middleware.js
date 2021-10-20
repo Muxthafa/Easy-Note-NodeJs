@@ -1,5 +1,5 @@
-const {verifyToken} = require('../utility/user.jwt')
-const {createCustomError} = require('../error-handler/custom-error')
+const { verifyToken } = require("../utility/user.jwt");
+const { createCustomError } = require("../error-handler/custom-error");
 const validateNote = (req, res, next) => {
   //check if content is present
   if (!req.body.content) {
@@ -21,22 +21,25 @@ const validateNote = (req, res, next) => {
 
 /**
  * function to verify user for authentication
- * @param req 
- * @param res 
- * @param next 
- * @returns 
+ * @param req
+ * @param res
+ * @param next
+ * @returns
  */
-const authorizeUser = (req,res,next) => {
-  const headerAuth = req.headers.authorization;
-  if(!headerAuth)
-    return res.status(500).send({message: "Not authorized"})
-  const token = headerAuth.split(" ")[1]
-  verifyToken(token,(error,data) => {
-      if(error)
-        return next(createCustomError("Some error occurred while authenticating the user.",500))
-      else
-        next()
-  })
-}
+const authorizeUser = (req, res, next) => {
+  const headerAuth = req.headers.authorization || req.headers.token;
+  if (!headerAuth) return res.status(500).send({ message: "Not authorized" });
+  const token = headerAuth.split(" ")[1];
+  verifyToken(token, (error, data) => {
+    if (error)
+      return next(
+        createCustomError(
+          "Some error occurred while authenticating the user.",
+          500
+        )
+      );
+    else next();
+  });
+};
 
-module.exports = { validateNote, authorizeUser}
+module.exports = { validateNote, authorizeUser };
