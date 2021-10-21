@@ -7,10 +7,11 @@ const {
 } = require("../models/note.models.js");
 
 /**
- * function call to create a new note with the given title and content
- * @param title 
- * @param content 
- * @param callback 
+ * @description extracting details to create a new note in the model
+ * @param {String} title
+ * @param {String} content
+ * @param {callback} callback
+ * @returns error or data
  */
 const createNewNote = (title, content, callback) => {
   createNote(title, content, (error, data) => {
@@ -19,8 +20,9 @@ const createNewNote = (title, content, callback) => {
 };
 
 /**
- * find all notes
- * @param callback 
+ * @description find all notes
+ * @param {callback} callback
+ * @returns error or data
  */
 const findAllNotes = (callback) => {
   findNotes((error, data) => {
@@ -29,9 +31,9 @@ const findAllNotes = (callback) => {
 };
 
 /**
- * find a single note
- * @param findId 
- * @param callback 
+ * @description find a single note
+ * @param {String} findId
+ * @param {callback} callback
  */
 const findNote = (findId, callback) => {
   findSingleNote(findId, (error, data) => {
@@ -40,11 +42,11 @@ const findNote = (findId, callback) => {
 };
 
 /**
- * Find note and update it with the request body
- * @param findId 
- * @param title 
- * @param content 
- * @param callback 
+ * @description Find note and update it with the request body
+ * @param {String} findId
+ * @param {String} title
+ * @param {String} content
+ * @param {callback} callback
  */
 const updateNote = (findId, title, content, callback) => {
   findSingleNoteAndUpdate(findId, title, content, (error, data) => {
@@ -53,9 +55,9 @@ const updateNote = (findId, title, content, callback) => {
 };
 
 /**
- * delete a note
- * @param findId 
- * @param callback 
+ * @description delete a note
+ * @param {String} findId
+ * @param {callback} callback
  */
 const deleteById = (findId, callback) => {
   findAndRemove(findId, (error, data) => {

@@ -3,11 +3,11 @@ const router = express.Router(); //middleware creates route handler
 const users = require("../controllers/user.controller.js");
 const validate = require("../validation/user.validation.js");
 
-//user login route 
-router.post('/login',users.login)
+//user login route
+router.post("/login", users.login);
 
 //create a new user
-router.post("/", validate,users.create);
+router.post("/", validate, users.create);
 
 // Retrieve all users
 router.get("/", users.findAll);
@@ -16,9 +16,15 @@ router.get("/", users.findAll);
 router.get("/:userId", users.findOne);
 
 // Update an user with userId
-router.put("/:userId",validate, users.update);
+router.put("/:userId", validate, users.update);
 
 //Delete an User with noteId
 router.delete("/:userId", users.deleteOne);
+
+//route implements forgot password link
+router.post('/forgot', users.forgotUserPassword);
+
+//allows reset password
+router.post('/reset/:token', users.resetUserPassword);
 
 module.exports = router; //exports the Router object

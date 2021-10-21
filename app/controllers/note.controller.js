@@ -6,20 +6,22 @@ const {
   deleteById,
 } = require("../service/note.service.js");
 const logger = require("../../config/logger");
-const {createCustomError} = require('../error-handler/custom-error')
+const { createCustomError } = require("../error-handler/custom-error");
 
 /**
- * Creates a Note
- * @param req 
- * @param res 
- * @param next 
+ * @description handles request response for creating a Note
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
  */
-const create = (req, res,next) => {
+const create = (req, res, next) => {
   let title = req.body.title;
   let content = req.body.content;
   createNewNote(title, content, (error, data) => {
     if (error) {
-      return next(createCustomError("Error occurred while creating the Note.",500))
+      return next(
+        createCustomError("Error occurred while creating the Note.", 500)
+      );
     }
     res.status(200).json({
       message: "created note successfully",
@@ -34,15 +36,17 @@ const create = (req, res,next) => {
 };
 
 /**
- * Retrieve and return all notes from the database.
- * @param req 
- * @param res 
- * @param next 
+ * @description handles request response for retrieving all notes from the database.
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
  */
 const findAll = (req, res, next) => {
   findAllNotes((error, data) => {
     if (error) {
-      return next(createCustomError("Error occurred while fetching all notes",500))
+      return next(
+        createCustomError("Error occurred while fetching all notes", 500)
+      );
     }
     if (!data) {
       res.status(404).send({
@@ -69,30 +73,30 @@ const findAll = (req, res, next) => {
 };
 
 /**
- * Find a single note with a noteId
- * @param req 
- * @param res 
- * @param next 
+ * @description handles request response for finding a single note with a noteId
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
  */
 const findOne = (req, res, next) => {
   let id = req.params.noteId;
   findNote(id, (error, data) => {
     if (error) {
-      return next(createCustomError(`no note found with id: ${id}`,500))
+      return next(createCustomError(`no note found with id: ${id}`, 500));
     }
     if (!data) {
       res.status(404).send({
         message: "no data found",
       });
     }
-    res.send({ Note: data });
+    res.status(200).send({ Note: data });
   });
 };
 
 /**
- * Update a note identified by the noteId in the request
- * @param req 
- * @param res 
+ * @description handles request response for updating a note identified by the noteId in the request
+ * @param {Object} req
+ * @param {Object} res
  */
 const update = (req, res) => {
   let id = req.params.noteId;
@@ -105,35 +109,37 @@ const update = (req, res) => {
           message: "Note not found with id (catch)" + id,
         });
       }
-      return next(error)
+      return next(error);
     }
     if (!data) {
       res.status(404).send({
         message: "no data found",
       });
     }
-    res.send({ Note: data });
+    res.status(200).send({ Note: data });
   });
 };
 
 /**
- * Delete a note with the specified noteId in the request
- * @param req 
- * @param res 
- * @param next 
+ * @description handles request response for deleting a note with the specified noteId in the request
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
  */
-const deleteOne = (req, res,next) => {
+const deleteOne = (req, res, next) => {
   let id = req.params.noteId;
   deleteById(id, (error, data) => {
     if (error) {
-      return next(createCustomError(`could not delete the note with id: ${id}`,500))
+      return next(
+        createCustomError(`could not delete the note with id: ${id}`, 500)
+      );
     }
     if (!data) {
       res.status(404).send({
         message: "no data found",
       });
     }
-    res.send({ Note: data });
+    res.status(200).send({ Note: data });
   });
 };
 

@@ -20,10 +20,10 @@ const validateNote = (req, res, next) => {
 };
 
 /**
- * function to verify user for authentication
- * @param req
- * @param res
- * @param next
+ * @description function to verify user for authentication
+ * @param {Object} req
+ * @param {Object}  res
+ * @param {Object} next
  * @returns
  */
 const authorizeUser = (req, res, next) => {

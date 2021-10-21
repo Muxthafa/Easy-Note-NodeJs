@@ -1,4 +1,4 @@
-const {createLogger,transports,format } = require('winston')
+const { createLogger, transports, format } = require("winston");
 require("winston-daily-rotate-file");
 
 /**
@@ -7,12 +7,12 @@ require("winston-daily-rotate-file");
  * it can be configured at various levels
  */
 const logger = createLogger({
-    format: format.combine(format.timestamp(),format.json()),
-    defaultMeta: { service: 'user-service' },
-    transports: new transports.DailyRotateFile({
-        filename: "logs/log-%DATE%.log",
-        datePattern: "DD-MM-YYYY",
-      })
-  });
+  format: format.combine(format.timestamp(), format.json()),
+  defaultMeta: { service: "user-service" },
+  transports: new transports.DailyRotateFile({
+    filename: "logs/log-%DATE%.log",
+    datePattern: "DD-MM-YYYY",
+  }),
+});
 
 module.exports = logger;

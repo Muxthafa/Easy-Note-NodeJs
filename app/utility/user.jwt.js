@@ -2,24 +2,21 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 
 /**
- * Generates token for the user
- * @param data 
+ * @description Generates token for the user
+ * @param {Object} data
  * @returns object containing message&token
  */
-const createToken = (email,id) => {
-  const token = jwt.sign({ id, email }, process.env.PRIVATE_KEY, {
+const createToken = (email) => {
+  const token = jwt.sign({ email }, process.env.PRIVATE_KEY, {
     expiresIn: "1d",
   });
-  return {
-    message: "Auth successful",
-    token: token,
-  };
+  return token
 };
 
 /**
- * Verifies the token to authorize user
- * @param token 
- * @param callback 
+ * @description Verifies the token to authorize user
+ * @param {String} token
+ * @param {callback} callback
  */
 const verifyToken = (token, callback) => {
   jwt.verify(token, process.env.PRIVATE_KEY, (err, decoded) => {

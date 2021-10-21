@@ -5,15 +5,17 @@ const {
   updateUser,
   deleteById,
   findUserEmail,
+  forgotPass,
+  resetPassword,
 } = require("../service/user.service.js");
 const logger = require("../../config/logger");
 const { createCustomError } = require("../error-handler/custom-error");
 
 /**
- * authenticates the user
- * @param req
- * @param res
- * @param next
+ * @description handles request response for authenticating the user
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
  */
 const login = (req, res, next) => {
   const { email, password } = req.body;
@@ -21,15 +23,15 @@ const login = (req, res, next) => {
     if (error) {
       return next(createCustomError(error, 500));
     }
-    res.send({ message: data });
+    res.status(200).send({ message: data });
   });
 };
 
 /**
- * Creates an user
- * @param req
- * @param res
- * @param next
+ * @description handles request response for creating an user
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
  */
 const create = (req, res, next) => {
   let userDetails = {
@@ -57,10 +59,10 @@ const create = (req, res, next) => {
 };
 
 /**
- * Retrieve and return all users from the database.
- * @param req
- * @param res
- * @param next
+ * @description handles request response for retrieving and return all users from the database.
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
  */
 const findAll = (req, res, next) => {
   findAllUsers((error, data) => {
@@ -98,10 +100,10 @@ const findAll = (req, res, next) => {
 };
 
 /**
- * Find a single user with a userId
- * @param req
- * @param res
- * @param next
+ * @description handles request response for finding a single user with a userId
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
  */
 const findOne = (req, res, next) => {
   let id = req.params.userId;
@@ -124,10 +126,10 @@ const findOne = (req, res, next) => {
 };
 
 /**
- * Update a user identified by the userId in the request
- * @param req
- * @param res
- * @param next
+ * @description handles request response for updating a user
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
  */
 const update = (req, res, next) => {
   let userDetails = {
@@ -159,10 +161,10 @@ const update = (req, res, next) => {
 };
 
 /**
- * Delete a user with the specified userId in the request
- * @param req
- * @param res
- * @param next
+ * @description handles request response for deleting a user
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
  */
 const deleteOne = (req, res, next) => {
   let id = req.params.userId;
@@ -181,4 +183,50 @@ const deleteOne = (req, res, next) => {
   });
 };
 
-module.exports = { create, findAll, findOne, update, deleteOne, login };
+/**
+ * @description handles request response for forgot password route
+ * @param {Object} req
+ * @param {Object} res
+ */
+const forgotUserPassword = (req, res) => {
+  let email = req.body.email;
+  forgotPass(email)
+    .then((data) => {
+      return res.status(200).send(data);
+    })
+    .catch((err) => {
+      return next(
+        createCustomError("Not authorized to change the password", 500)
+      );
+    });
+};
+
+/**
+ * @description handles request response for password reset
+ * @param {Object} req
+ * @param {Object} res
+ */
+const resetUserPassword = (req, res) => {
+  let token = req.params.token;
+  let password = req.body.password;
+
+  resetPassword(token, password)
+    .then((data) => {
+      res.status(200).json({ message: "Password updated successfully", "Result:": data });
+    })
+    .catch((err) => {
+      console.log("error:" + err);
+      res.status(404).send(err);
+    });
+};
+
+module.exports = {
+  create,
+  findAll,
+  findOne,
+  update,
+  deleteOne,
+  login,
+  forgotUserPassword,
+  resetUserPassword,
+};
