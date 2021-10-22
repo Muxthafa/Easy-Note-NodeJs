@@ -125,7 +125,7 @@ const forgotPassword = (email) => {
       } 
       else 
       {
-        let token = createToken(data.email);
+        let token = createToken(data.email,data._id);
         data.resetPasswordToken = token;
         return data.save()
         .then(data =>{

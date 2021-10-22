@@ -17,7 +17,9 @@ const { createCustomError } = require("../error-handler/custom-error");
 const create = (req, res, next) => {
   let title = req.body.title;
   let content = req.body.content;
-  createNewNote(title, content, (error, data) => {
+  let userId = req.body.userId
+  console.log(userId);
+  createNewNote(title, content, userId ,(error, data) => {
     if (error) {
       return next(
         createCustomError("Error occurred while creating the Note.", 500)
@@ -42,7 +44,7 @@ const create = (req, res, next) => {
  * @param {Object} next
  */
 const findAll = (req, res, next) => {
-  findAllNotes((error, data) => {
+  findAllNotes(req.body.userId,(error, data) => {
     if (error) {
       return next(
         createCustomError("Error occurred while fetching all notes", 500)
@@ -60,6 +62,7 @@ const findAll = (req, res, next) => {
           title: note.title,
           content: note.content,
           _id: note._id,
+          userId: note.userId,
           request: {
             type: "GET",
             url: "http://localhost:3000/notes/" + note._id,
@@ -80,7 +83,8 @@ const findAll = (req, res, next) => {
  */
 const findOne = (req, res, next) => {
   let id = req.params.noteId;
-  findNote(id, (error, data) => {
+  let userId = req.body.userId
+  findNote(userId,id, (error, data) => {
     if (error) {
       return next(createCustomError(`no note found with id: ${id}`, 500));
     }
@@ -89,7 +93,7 @@ const findOne = (req, res, next) => {
         message: "no data found",
       });
     }
-    res.status(200).send({ Note: data });
+    res.status(200).send({ Message: "Note found!!!",Note: data });
   });
 };
 
@@ -98,25 +102,26 @@ const findOne = (req, res, next) => {
  * @param {Object} req
  * @param {Object} res
  */
-const update = (req, res) => {
+const update = (req, res, next) => {
   let id = req.params.noteId;
   let title = req.body.title;
   let content = req.body.content;
-  updateNote(id, title, content, (error, data) => {
+  let userId = req.body.userId
+  updateNote(id, title, content, userId, (error, data) => {
     if (error) {
       if (error.kind === "ObjectId") {
         return res.status(404).send({
           message: "Note not found with id (catch)" + id,
         });
       }
-      return next(error);
+      return next(createCustomError(`no note found with id: ${id}`, 500));
     }
     if (!data) {
-      res.status(404).send({
+     return res.status(404).send({
         message: "no data found",
       });
     }
-    res.status(200).send({ Note: data });
+    return res.status(200).send({ Message: "Note updated successfully",Note: data });
   });
 };
 
@@ -128,18 +133,19 @@ const update = (req, res) => {
  */
 const deleteOne = (req, res, next) => {
   let id = req.params.noteId;
-  deleteById(id, (error, data) => {
+  let userId = req.body.userId
+  deleteById(id, userId, (error, data) => {
     if (error) {
       return next(
         createCustomError(`could not delete the note with id: ${id}`, 500)
       );
     }
     if (!data) {
-      res.status(404).send({
-        message: "no data found",
+     return res.status(404).send({
+        message: "no note found",
       });
     }
-    res.status(200).send({ Note: data });
+    return res.status(200).send({ message: "Note deleted successfully", Note: data });
   });
 };
 

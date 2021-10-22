@@ -22,7 +22,7 @@ router.put("/:userId", validate, users.update);
 router.delete("/:userId", users.deleteOne);
 
 //route implements forgot password link
-router.post('/forgot', users.forgotUserPassword);
+router.post('/forgot-password', users.forgotUserPassword);
 
 //allows reset password
 router.post('/reset/:token', users.resetUserPassword);

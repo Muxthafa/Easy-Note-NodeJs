@@ -1,5 +1,6 @@
 const { verifyToken } = require("../utility/user.jwt");
 const { createCustomError } = require("../error-handler/custom-error");
+const { decode } = require("jsonwebtoken");
 const validateNote = (req, res, next) => {
   //check if content is present
   if (!req.body.content) {
@@ -31,14 +32,18 @@ const authorizeUser = (req, res, next) => {
   if (!headerAuth) return res.status(500).send({ message: "Not authorized" });
   const token = headerAuth.split(" ")[1];
   verifyToken(token, (error, data) => {
-    if (error)
+    if (error){
       return next(
         createCustomError(
           "Some error occurred while authenticating the user.",
           500
         )
       );
-    else next();
+    }  
+    else{
+      req.body.userId = data._id
+      next()
+    }
   });
 };
 

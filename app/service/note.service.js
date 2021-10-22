@@ -11,10 +11,11 @@ const {
  * @param {String} title
  * @param {String} content
  * @param {callback} callback
+ * @param {String} userId
  * @returns error or data
  */
-const createNewNote = (title, content, callback) => {
-  createNote(title, content, (error, data) => {
+const createNewNote = (title, content,userId, callback) => {
+  createNote(title, content, userId,(error, data) => {
     return error ? callback(error, null) : callback(null, data);
   });
 };
@@ -22,21 +23,23 @@ const createNewNote = (title, content, callback) => {
 /**
  * @description find all notes
  * @param {callback} callback
+ * @param {String} userId
  * @returns error or data
  */
-const findAllNotes = (callback) => {
-  findNotes((error, data) => {
+const findAllNotes = (userId,callback) => {
+  findNotes(userId,(error, data) => {
     return error ? callback(error, null) : callback(null, data);
   });
 };
 
 /**
  * @description find a single note
+ * @param {String} userId
  * @param {String} findId
  * @param {callback} callback
  */
-const findNote = (findId, callback) => {
-  findSingleNote(findId, (error, data) => {
+const findNote = (userId,findId, callback) => {
+  findSingleNote(userId,findId, (error, data) => {
     return error ? callback(error, null) : callback(null, data);
   });
 };
@@ -46,10 +49,11 @@ const findNote = (findId, callback) => {
  * @param {String} findId
  * @param {String} title
  * @param {String} content
+ * @param {String} userId
  * @param {callback} callback
  */
-const updateNote = (findId, title, content, callback) => {
-  findSingleNoteAndUpdate(findId, title, content, (error, data) => {
+const updateNote = (findId, title, content, userId, callback) => {
+  findSingleNoteAndUpdate(findId, title, content, userId, (error, data) => {
     return error ? callback(error, null) : callback(null, data);
   });
 };
@@ -57,10 +61,11 @@ const updateNote = (findId, title, content, callback) => {
 /**
  * @description delete a note
  * @param {String} findId
+ * @param {String} userId
  * @param {callback} callback
  */
-const deleteById = (findId, callback) => {
-  findAndRemove(findId, (error, data) => {
+const deleteById = (findId, userId,callback) => {
+  findAndRemove(findId, userId,(error, data) => {
     return error ? callback(error, null) : callback(null, data);
   });
 };

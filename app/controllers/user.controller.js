@@ -121,7 +121,7 @@ const findOne = (req, res, next) => {
         message: "no data found",
       });
     }
-    res.send({ User: data });
+    res.status(200).send({ User: data });
   });
 };
 
@@ -156,7 +156,7 @@ const update = (req, res, next) => {
         message: "no data found",
       });
     }
-    res.send({ User: data });
+    res.status(200).send({ Message: "User updated successfully",User: data });
   });
 };
 
@@ -179,7 +179,7 @@ const deleteOne = (req, res, next) => {
         message: "no data found",
       });
     }
-    res.send({ message: "User deleted successfully", User: data.name });
+    res.status(200).send({ message: "User deleted successfully", User: data.name });
   });
 };
 
