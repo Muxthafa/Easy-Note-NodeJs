@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const { createToken } = require("../utility/user.jwt");
 const bcrypt = require('bcrypt')
+const crypto = require('crypto')
 
 //creation of schema for user collection
 const UserSchema = mongoose.Schema(
@@ -11,7 +11,8 @@ const UserSchema = mongoose.Schema(
     phone: Number,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    resetPasswordToken: String
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
   },
   {
     timestamps: true,
@@ -125,8 +126,9 @@ const forgotPassword = (email) => {
       } 
       else 
       {
-        let token = createToken(data.email,data._id);
+        let token = crypto.randomBytes(20).toString('hex');
         data.resetPasswordToken = token;
+        data.resetPasswordExpires = Date.now() + 3600000;
         return data.save()
         .then(data =>{
           return data;
@@ -150,7 +152,7 @@ const forgotPassword = (email) => {
  */
 const resetPass = (token, newPassword) => {
   return User
-    .findOne({ resetPasswordToken: token })
+    .findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } })
     .then((data) => {
       if (!data) {
         throw "token not found";

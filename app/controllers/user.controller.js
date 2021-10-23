@@ -188,7 +188,7 @@ const deleteOne = (req, res, next) => {
  * @param {Object} req
  * @param {Object} res
  */
-const forgotUserPassword = (req, res) => {
+const forgotUserPassword = (req, res, next) => {
   let email = req.body.email;
   forgotPass(email)
     .then((data) => {
@@ -206,7 +206,7 @@ const forgotUserPassword = (req, res) => {
  * @param {Object} req
  * @param {Object} res
  */
-const resetUserPassword = (req, res) => {
+const resetUserPassword = (req, res,next) => {
   let token = req.params.token;
   let password = req.body.password;
 
@@ -215,8 +215,9 @@ const resetUserPassword = (req, res) => {
       res.status(200).json({ message: "Password updated successfully", "Result:": data });
     })
     .catch((err) => {
-      console.log("error:" + err);
-      res.status(404).send(err);
+      return next(
+        createCustomError("Error while changing the password", 500)
+      );
     });
 };
 
