@@ -22,7 +22,7 @@ const sendMail = (email,token) => {
     from: 'musthafamohd17@gmail.com',
     to: email,
     subject: 'Sending Email using Node.js',
-    html: `<a href="http://localhost:3000/users/reset/${token}">http://localhost:3000/users/reset/${token}</a>`
+    html: `<a href="http://localhost:3000/reset/${token}">click here</a>`
   };
   
   return transporter.sendMail(mailOptions)

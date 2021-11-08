@@ -5,10 +5,8 @@ const crypto = require('crypto')
 //creation of schema for user collection
 const UserSchema = mongoose.Schema(
   {
-    name: { type: String, required: true },
-    age: { type: Number, required: true, integer: true },
-    address: String,
-    phone: Number,
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     resetPasswordToken: String,
@@ -29,10 +27,8 @@ const User = mongoose.model("User", UserSchema);
  */
 const createUser = (userDetails, callback) => {
   const user = new User({
-    name: userDetails.name,
-    age: userDetails.age,
-    address: userDetails.address,
-    phone: userDetails.phone,
+    firstName: userDetails.firstName,
+    lastName: userDetails.lastName,
     email: userDetails.email,
     password: userDetails.password,
   });
@@ -129,6 +125,7 @@ const forgotPassword = (email) => {
         let token = crypto.randomBytes(20).toString('hex');
         data.resetPasswordToken = token;
         data.resetPasswordExpires = Date.now() + 3600000;
+        console.log(data);
         return data.save()
         .then(data =>{
           return data;

@@ -111,8 +111,10 @@ const findUserEmail = (email, password, callback) => {
 const forgotPass = (email) =>{
   return forgotPassword(email)
   .then(data => {
-    return sendMail(data.email,data.resetPasswordToken)
+    let token = data.resetPasswordToken
+    return sendMail(data.email,token)
     .then(data =>{
+      data.token = token
       return data
     })
     .catch(err =>{

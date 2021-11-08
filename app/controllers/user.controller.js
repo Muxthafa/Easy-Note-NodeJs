@@ -21,7 +21,7 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   findUserEmail(email, password, (error, data) => {
     if (error) {
-      return next(createCustomError(error, 500));
+      return next(createCustomError(error, 401));
     }
     res.status(200).send({ message: data });
   });
@@ -35,21 +35,19 @@ const login = (req, res, next) => {
  */
 const create = (req, res, next) => {
   let userDetails = {
-    name: req.body.name,
-    age: req.body.age,
-    address: req.body.address,
-    phone: req.body.phone,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password,
   };
-
   createNewUser(userDetails, (error, data) => {
     if (error)
       return next(
-        createCustomError("Error occurred while creating the User.", 404)
+        createCustomError("Error occurred while creating the User.", 401)
       );
-    res.status(200).json({
-      message: `created user ${data.name} successfully`,
+      console.log("created user!!!");
+    return res.status(200).json({
+      message: `created user ${data.firstName} successfully`,
       request: {
         type: "GET",
         url: "http://localhost:3000/users/" + data._id,
@@ -72,7 +70,7 @@ const findAll = (req, res, next) => {
       );
     }
     if (!data) {
-      res.status(404).send({
+      return res.status(404).send({
         message: "no data found",
       });
     }
@@ -95,7 +93,7 @@ const findAll = (req, res, next) => {
       }),
     };
     logger.info("responded with all notes");
-    res.status(200).json(response);
+    return res.status(200).json(response);
   });
 };
 
@@ -134,9 +132,6 @@ const findOne = (req, res, next) => {
 const update = (req, res, next) => {
   let userDetails = {
     id: req.params.userId,
-    name: req.body.name,
-    age: req.body.age,
-    address: req.body.address,
     phone: req.body.phone,
     email: req.body.email,
   };
@@ -192,6 +187,7 @@ const forgotUserPassword = (req, res, next) => {
   let email = req.body.email;
   forgotPass(email)
     .then((data) => {
+      console.log(data);
       return res.status(200).send(data);
     })
     .catch((err) => {
@@ -216,7 +212,7 @@ const resetUserPassword = (req, res,next) => {
     })
     .catch((err) => {
       return next(
-        createCustomError("Error while changing the password", 500)
+        createCustomError("Error while changing the password", 401)
       );
     });
 };
