@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : generates log messages                 
+ * 
+ * @file            : logger.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 const { createLogger, transports, format } = require("winston");
 require("winston-daily-rotate-file");
 

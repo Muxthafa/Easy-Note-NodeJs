@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : database connection setup               
+ * 
+ * @file            : db.connect.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 

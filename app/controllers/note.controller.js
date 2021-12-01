@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : get the request, response object from note routes               
+ * 
+ * @file            : note.controller.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 const {
   createNewNote,
   findAllNotes,
@@ -7,6 +19,7 @@ const {
 } = require("../service/note.service.js");
 const logger = require("../../config/logger");
 const { createCustomError } = require("../error-handler/custom-error");
+const { handleImage } = require('../utility/note.image.js')
 
 /**
  * @description handles request response for creating a Note
@@ -40,6 +53,23 @@ const create = (req, res, next) => {
   });
 };
 
+/**
+ * @description handles request response for uploading image
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
+ */
+ const image = (req, res, next) => {
+    handleImage(req,res, (error, data) => {
+      if(error){
+        console.log(error);
+        res.status(400).send(error)
+      }else{
+        console.log(req.file);
+        res.status(200).send(req.file)
+      }
+    })
+};
 
 /**
  * @description handles request response for retrieving all notes from the database.
@@ -160,4 +190,4 @@ const deleteOne = (req, res, next) => {
   });
 };
 
-module.exports = { create, findAll, findOne, update, deleteOne };
+module.exports = { create, findAll, findOne, update, deleteOne, image };

@@ -1,36 +1,26 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : routes for notes             
+ * 
+ * @file            : note.routes.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 const express = require("express");
 const router = express.Router(); //middleware creates route handler
-const multer = require('multer');
-const { error } = require("winston");
-
-const fileStorageEngine = multer.diskStorage({
-  destination:(req,file,callback) => {
-    callback(null,"uploads/")
-  },
-  filename:(req,file,callback) => {
-    callback(null,Date.now()+"-"+file.originalname)
-  }
-})
-
-const upload = multer({ storage: fileStorageEngine}).single('image')
 
 const notes = require("../controllers/note.controller.js");
 const {
   validateNote,
   authorizeUser,
 } = require("../middleware/note.middleware.js");
+const { error } = require("winston");
 
-router.post('/image',authorizeUser, (req,res,next)=> {
-  upload(req,res,(error)=>{
-    if(error){
-      console.log(error);
-      res.status(400).send(error)
-    }else{
-      console.log(req.file);
-      res.status(200).send(req.file)
-    }
-  }
-)})
+router.post('/image',authorizeUser, notes.image)
 //create a new note
 router.post("/", authorizeUser, validateNote, notes.create);
 

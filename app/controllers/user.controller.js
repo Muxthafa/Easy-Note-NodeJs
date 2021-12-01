@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : get the request, response object from user routes               
+ * 
+ * @file            : user.controller.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 const {
   createNewUser,
   findAllUsers,

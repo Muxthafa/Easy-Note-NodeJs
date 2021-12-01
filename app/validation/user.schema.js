@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : creation of validation schema using joi                
+ * 
+ * @file            : user.schema.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 const joi = require("@hapi/joi");
 
 /*

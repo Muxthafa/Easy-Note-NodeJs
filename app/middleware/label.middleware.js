@@ -1,23 +1,24 @@
 /* ************************************************************************
  * Execution        : 1. default node       cmd> nodemon server.js
  * 
- * @description     : Receives data from previous middleware in the note routes                
+ * @description     : Receives data from previous middleware in the label routes                
  * 
- * @file            : note.middleware.js
+ * @file            : label.middleware.js
  * @author          : Mohammad Musthafa
  * @version         : 1.0
- * @since           : 7-Oct-2021
+ * @since           : 1-dec-2021
  * 
  **************************************************************************/
 
 const { verifyToken } = require("../utility/user.jwt");
 const { createCustomError } = require("../error-handler/custom-error");
 const { decode } = require("jsonwebtoken");
-const validateNote = (req, res, next) => {
-  //check if content is present
-  if (!req.body.content) {
+
+const validateLabel = (req, res, next) => {
+  //check if title is present
+  if (!req.body.title) {
     return res.status(400).send({
-      message: "Note content can not be empty (handled by middleware)",
+      message: "Label content can not be empty (handled by middleware)",
     });
   }
 
@@ -25,9 +26,10 @@ const validateNote = (req, res, next) => {
   var pattern = new RegExp("(^[a-zA-z]+([\\s][a-zA-Z]+)*$)");
   if (!pattern.test(req.body.title)) {
     return res.status(400).send({
-      message: "Note a valid title name",
+      message: "Label does not contain a valid title name",
     });
   } else {
+      console.log("in middleaware");
     next();
   }
 };
@@ -60,4 +62,4 @@ const authorizeUser = (req, res, next) => {
   });
 };
 
-module.exports = { validateNote, authorizeUser };
+module.exports = { validateLabel, authorizeUser };

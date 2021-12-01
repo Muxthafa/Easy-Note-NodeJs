@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : get the values from the service and process them for the notes in fundo notes                
+ * 
+ * @file            : user.models.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')

@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : Encrypts the password, verification of password using bcrypt module             
+ * 
+ * @file            : user.bcrypt.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 const bcrypt = require("bcrypt");
 
 /**

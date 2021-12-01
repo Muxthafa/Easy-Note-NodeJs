@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : get the values from the controller and process them for the notes in fundo notes                
+ * 
+ * @file            : user.service.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 1-2-2019
+ * 
+ **************************************************************************/
+
 const {
   createUser,
   findUsers,

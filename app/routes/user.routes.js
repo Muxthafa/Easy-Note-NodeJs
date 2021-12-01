@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : routes for users             
+ * 
+ * @file            : user.routes.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 const express = require("express");
 const router = express.Router(); //middleware creates route handler
 const users = require("../controllers/user.controller.js");

@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : Creates the token, verifies the token using jwt                
+ * 
+ * @file            : user.jwt.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 

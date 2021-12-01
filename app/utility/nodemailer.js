@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : nodemailer to send mail to specified user                
+ * 
+ * @file            : nodemailer.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 var nodemailer = require('nodemailer')
 require('dotenv').config()
 

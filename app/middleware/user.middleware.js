@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : Receives data from previous middleware in the user routes                
+ * 
+ * @file            : user.middleware.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 module.exports = (req, res, next) => {
   //name validation
   let nameRegex = new RegExp("^[A-Z][a-zA-Z]{2,}");

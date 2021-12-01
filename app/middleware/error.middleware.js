@@ -1,3 +1,15 @@
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : it handles all the errors from controllers               
+ * 
+ * @file            : error.middleware.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
+
 const logger = require("../../config/logger");
 const { CustomError } = require("../error-handler/custom-error");
 

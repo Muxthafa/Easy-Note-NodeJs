@@ -1,15 +1,21 @@
-/**
- * @module
- * @description
- * @version
- * @author
- */
+/* ************************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ * 
+ * @description     : creates the server               
+ * 
+ * @file            : index.js
+ * @author          : Mohammad Musthafa
+ * @version         : 1.0
+ * @since           : 7-Oct-2021
+ * 
+ **************************************************************************/
 
 const express = require("express");
 const app = express();
 
 const routesNote = require("./app/routes/note.routes.js");
 const routesUser = require("./app/routes/user.routes.js");
+const routesLabel = require("./app/routes/label.routes.js");
 const errorHandler = require("./app/middleware/error.middleware.js");
 const {createCustomError} = require('./app/error-handler/custom-error')
 const dbConnect = require("./config/db/db.connect.js")
@@ -42,6 +48,9 @@ app.use("/notes", routesNote);
 
 //all requests starting with users in the URL are handled by routes
 app.use("/users", routesUser);
+
+//all requests starting with label in the URL are handled by routes
+app.use("/labels", routesLabel);
 
 //all requests apart from /notes handled here
 app.all('*',(req,res,next)=>{
