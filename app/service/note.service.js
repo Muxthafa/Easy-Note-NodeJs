@@ -14,8 +14,8 @@ const {
  * @param {String} userId
  * @returns error or data
  */
-const createNewNote = (title, content,userId, callback) => {
-  createNote(title, content, userId,(error, data) => {
+const createNewNote = (title, content,color,userId, callback) => {
+  createNote(title, content, color,userId,(error, data) => {
     return error ? callback(error, null) : callback(null, data);
   });
 };
@@ -52,8 +52,8 @@ const findNote = (userId,findId, callback) => {
  * @param {String} userId
  * @param {callback} callback
  */
-const updateNote = (findId, title, content, userId, callback) => {
-  findSingleNoteAndUpdate(findId, title, content, userId, (error, data) => {
+const updateNote = (findId, title, content, color,image,userId, isTrash, callback) => {
+  findSingleNoteAndUpdate(findId, title, content, color,image,userId,isTrash, (error, data) => {
     return error ? callback(error, null) : callback(null, data);
   });
 };

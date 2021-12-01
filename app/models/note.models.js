@@ -5,7 +5,10 @@ const NoteSchema = mongoose.Schema(
   {
     title: String,
     content: String,
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+    isTrash: Boolean,
+    color: String,
+    image: String,
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   {
     timestamps: true,
@@ -22,11 +25,14 @@ const Note = mongoose.model("Note", NoteSchema);
  * @param {callback} callback
  * @returns
  */
-const createNote = (title, content,userId, callback) => {
+const createNote = (title, content, color, userId, callback) => {
   const note = new Note({
     title: title || "Untitled Note",
     content: content,
-    userId: userId
+    isTrash: false,
+    color: color,
+    image: "",
+    userId: userId,
   });
   // Save Note in the database
   return note.save({}, (error, data) => {
@@ -40,15 +46,12 @@ const createNote = (title, content,userId, callback) => {
  * @param {callback} callback
  * @returns error or callback
  */
-const findNotes = (userId,callback) => {
-  return Note.find({userId: userId})
-            .populate(
-              {path: 'userId',
-               select:
-              'email'})
-            .exec((error, data) => {
-            return error ? callback(error, null) : callback(null, data);
-  });
+const findNotes = (userId, callback) => {
+  return Note.find({ userId: userId })
+    .populate({ path: "userId", select: "email" })
+    .exec((error, data) => {
+      return error ? callback(error, null) : callback(null, data);
+    });
 };
 
 /**
@@ -58,19 +61,17 @@ const findNotes = (userId,callback) => {
  * @param {callback} callback
  * @returns error or callback
  */
-const findSingleNote = (userId,id, callback) => {
-  return Note.find({userId: userId},(error, data) => {
-    if(error){
-      return callback(error, null)
-    }else{
-    let result = data.filter((obj) => id == obj._id)
-    if(result.length == 0)
-      return callback("No note found")
-    else
-      return callback(null,result)
+const findSingleNote = (userId, id, callback) => {
+  return Note.find({ userId: userId }, (error, data) => {
+    if (error) {
+      return callback(error, null);
+    } else {
+      let result = data.filter((obj) => id == obj._id);
+      if (result.length == 0) return callback("No note found");
+      else return callback(null, result);
     }
-  })
-}
+  });
+};
 
 /**
  * @description Query to find and update note
@@ -81,22 +82,35 @@ const findSingleNote = (userId,id, callback) => {
  * @param {callback} callback
  * @returns
  */
-const findSingleNoteAndUpdate = (id, title, content, userId, callback) => {
-  return Note.findOne({userId: userId, _id:id}, (error, data) => {
-    if(error){
+const findSingleNoteAndUpdate = (
+  id,
+  title,
+  content,
+  color,
+  image,
+  userId,
+  isTrash,
+  callback
+) => {
+  return Note.findOne({ userId: userId, _id: id }, (error, data) => {
+    if (error) {
       console.log(error);
-      callback(error,null)
+      callback(error, null);
     }
-    if(!data){
-      callback("No note found",null)
+    if (!data) {
+      callback("No note found", null);
     }
     console.log(data);
-    return Note.findByIdAndUpdate(id,{ title: title, content: content },{ new: true },
-        (error, data) => {
+    return Note.findByIdAndUpdate(
+      id,
+      { title: title, content: content, color: color, image:image,isTrash: isTrash },
+      { new: true },
+      (error, data) => {
         return error ? callback(error, null) : callback(null, data);
-    });
-});
-}
+      }
+    );
+  });
+};
 
 /**
  * @description Query to find and remove a note
@@ -113,7 +127,7 @@ const findAndRemove = (id, userId, callback) => {
     if (!data) {
       return callback("No note found", null);
     }
-    return callback(null,data)
+    return callback(null, data);
   });
 };
 

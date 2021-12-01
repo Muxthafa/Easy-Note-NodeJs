@@ -1,5 +1,18 @@
 const express = require("express");
 const router = express.Router(); //middleware creates route handler
+const multer = require('multer');
+const { error } = require("winston");
+
+const fileStorageEngine = multer.diskStorage({
+  destination:(req,file,callback) => {
+    callback(null,"uploads/")
+  },
+  filename:(req,file,callback) => {
+    callback(null,Date.now()+"-"+file.originalname)
+  }
+})
+
+const upload = multer({ storage: fileStorageEngine}).single('image')
 
 const notes = require("../controllers/note.controller.js");
 const {
@@ -7,6 +20,17 @@ const {
   authorizeUser,
 } = require("../middleware/note.middleware.js");
 
+router.post('/image',authorizeUser, (req,res,next)=> {
+  upload(req,res,(error)=>{
+    if(error){
+      console.log(error);
+      res.status(400).send(error)
+    }else{
+      console.log(req.file);
+      res.status(200).send(req.file)
+    }
+  }
+)})
 //create a new note
 router.post("/", authorizeUser, validateNote, notes.create);
 

@@ -103,7 +103,7 @@ const findAndRemove = (id, callback) => {
  * @returns
  */
 const findEmail = (email, callback) => {
-  return User.findOne({ email }, (error, data) => {
+  return User.findOne({ email: email }, (error, data) => {
     return error ? callback(error, null) : callback(null, data);
   });
 };

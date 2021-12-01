@@ -23,7 +23,7 @@ const login = (req, res, next) => {
     if (error) {
       return next(createCustomError(error, 401));
     }
-    res.status(200).send({ message: data });
+    res.status(200).send({ token: data });
   });
 };
 

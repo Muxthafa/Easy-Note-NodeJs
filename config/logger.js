@@ -2,7 +2,7 @@ const { createLogger, transports, format } = require("winston");
 require("winston-daily-rotate-file");
 
 /**
- * createLogger method of winston is used to generate log messages
+ * @description createLogger method of winston is used to generate log messages
  * transports defines storage path
  * it can be configured at various levels
  */

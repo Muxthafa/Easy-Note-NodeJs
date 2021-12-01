@@ -17,25 +17,29 @@ const { createCustomError } = require("../error-handler/custom-error");
 const create = (req, res, next) => {
   let title = req.body.title;
   let content = req.body.content;
+  let color = req.body.color;
   let userId = req.body.userId
   console.log(userId);
-  createNewNote(title, content, userId ,(error, data) => {
+  createNewNote(title, content,color, userId ,(error, data) => {
     if (error) {
       return next(
         createCustomError("Error occurred while creating the Note.", 500)
       );
     }
-    res.status(200).json({
+    
+    return res.status(200).json({
       message: "created note successfully",
       createdNote: {
         request: {
           type: "GET",
           url: "http://localhost:3000/notes/" + data._id,
         },
+        Note: data
       },
     });
   });
 };
+
 
 /**
  * @description handles request response for retrieving all notes from the database.
@@ -55,6 +59,7 @@ const findAll = (req, res, next) => {
         message: "no data found",
       });
     }
+    console.log(data);
     const response = {
       count: data.length,
       Notes: data.map((note) => {
@@ -62,6 +67,9 @@ const findAll = (req, res, next) => {
           title: note.title,
           content: note.content,
           _id: note._id,
+          isTrash: note.isTrash,
+          color: note.color,
+          image: note.image,
           userId: note.userId,
           request: {
             type: "GET",
@@ -106,8 +114,11 @@ const update = (req, res, next) => {
   let id = req.params.noteId;
   let title = req.body.title;
   let content = req.body.content;
-  let userId = req.body.userId
-  updateNote(id, title, content, userId, (error, data) => {
+  let isTrash = req.body.isTrash;
+  let color = req.body.color;
+  let image = req.body.image;
+  let userId = req.body.userId;
+  updateNote(id, title, content, color, image,userId, isTrash,(error, data) => {
     if (error) {
       if (error.kind === "ObjectId") {
         return res.status(404).send({

@@ -30,7 +30,8 @@ const validateNote = (req, res, next) => {
 const authorizeUser = (req, res, next) => {
   const headerAuth = req.headers.authorization || req.headers.token;
   if (!headerAuth) return res.status(500).send({ message: "Not authorized" });
-  const token = headerAuth.split(" ")[1];
+  // const token = headerAuth.split(" ")[1];
+  const token = headerAuth
   verifyToken(token, (error, data) => {
     if (error){
       return next(

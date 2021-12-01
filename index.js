@@ -32,6 +32,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(express.static('uploads'))
 
 //swagger ui for documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

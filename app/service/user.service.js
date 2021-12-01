@@ -98,7 +98,7 @@ const findUserEmail = (email, password, callback) => {
         }
       });
     } else {
-      callback(error, "Email not found");
+      callback("error", null);
     }
   });
 };
