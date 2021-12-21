@@ -33,7 +33,7 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   findUserEmail(email, password, (error, data) => {
     if (error) {
-      return next(createCustomError(error, 401));
+      return next(createCustomError(error, 500));
     }
     res.status(200).send({ token: data });
   });
@@ -57,12 +57,12 @@ const create = (req, res, next) => {
       return next(
         createCustomError("Error occurred while creating the User.", 401)
       );
-      console.log("created user!!!");
+      logger.info(`Created a new user ${data._id}`);
     return res.status(200).json({
       message: `created user ${data.firstName} successfully`,
       request: {
-        type: "GET",
-        url: "http://localhost:3000/users/" + data._id,
+        type: "POST",
+        url: "http://localhost:3000/users/"
       },
     });
   });
@@ -74,39 +74,38 @@ const create = (req, res, next) => {
  * @param {Object} res
  * @param {Object} next
  */
-const findAll = (req, res, next) => {
-  findAllUsers((error, data) => {
-    if (error) {
-      return next(
-        createCustomError("Error occurred while fetching all the Users.", 404)
-      );
-    }
-    if (!data) {
-      return res.status(404).send({
-        message: "no data found",
-      });
-    }
-    const response = {
-      count: data.length,
-      Notes: data.map((user) => {
-        return {
-          name: user.name,
-          age: user.age,
-          address: user.address,
-          phone: user.phone,
-          email: user.email,
-          password: user.password,
-          _id: user.id,
-          request: {
-            type: "GET",
-            url: "http://localhost:3000/users/" + user._id,
-          },
-        };
-      }),
-    };
-    logger.info("responded with all notes");
-    return res.status(200).json(response);
-  });
+const findAll = async (req, res, next) => {
+  try {
+    let data = await findAllUsers()
+      if (!data) {
+        return res.status(404).send({
+          message: "no data found",
+        });
+      }
+      const response = {
+        count: data.length,
+        Users: data.map((user) => {
+          return {
+            name: user.name,
+            age: user.age,
+            address: user.address,
+            email: user.email,
+            password: user.password,
+            _id: user.id,
+            request: {
+              type: "GET",
+              url: "http://localhost:3000/users/" + user._id,
+            },
+          };
+        }),
+      };
+      logger.info("responded with all notes");
+      return res.status(200).json(response);
+  } catch (error) {
+    return next(
+      createCustomError("Error occurred while fetching all the Users.", 404)
+    );
+  }
 };
 
 /**
@@ -131,6 +130,7 @@ const findOne = (req, res, next) => {
         message: "no data found",
       });
     }
+    logger.info(`responded with the details of user ${data._id}`)
     res.status(200).send({ User: data });
   });
 };
@@ -163,6 +163,7 @@ const update = (req, res, next) => {
         message: "no data found",
       });
     }
+    logger.info(`Updated the user ${data._id}`)
     res.status(200).send({ Message: "User updated successfully",User: data });
   });
 };
@@ -178,7 +179,7 @@ const deleteOne = (req, res, next) => {
   deleteById(id, (error, data) => {
     if (error) {
       return next(
-        createCustomError(`could not delete the user with is ${id}`, 404)
+        createCustomError(`could not delete the user with id ${id}`, 404)
       );
     }
     if (!data) {
@@ -186,6 +187,7 @@ const deleteOne = (req, res, next) => {
         message: "no data found",
       });
     }
+    logger.info(`deleted the user ${data._id}`)
     res.status(200).send({ message: "User deleted successfully", User: data.name });
   });
 };

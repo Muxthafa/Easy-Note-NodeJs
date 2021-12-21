@@ -17,7 +17,7 @@ const validateNote = (req, res, next) => {
   //check if content is present
   if (!req.body.content) {
     return res.status(400).send({
-      message: "Note content can not be empty (handled by middleware)",
+      message: "Note content cannot be empty",
     });
   }
 
@@ -48,7 +48,7 @@ const authorizeUser = (req, res, next) => {
     if (error){
       return next(
         createCustomError(
-          "Some error occurred while authenticating the user.",
+          "Error occurred while authenticating the user",
           500
         )
       );

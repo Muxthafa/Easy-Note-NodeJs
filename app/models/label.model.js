@@ -12,10 +12,14 @@
 
 const mongoose = require("mongoose");
 
+
 //creation of schema for label collection
 const LabelSchema = mongoose.Schema(
   {
-    title: String,
+    title: {
+      type: String,
+      unique: true
+    },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   {
@@ -37,8 +41,7 @@ const createLabel = async (title, userId) => {
   });
 
   try {
-    const data = await labe.save({});
-    return data;
+    return await label.save({});
   } catch (error) {
     throw error;
   }

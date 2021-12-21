@@ -1,0 +1,28 @@
+{
+    "UserValidLoginData": {
+        "email" : "musthafamohd0@gmail.com",
+        "password": "musthafa123"
+    },
+    "UserInvalidLoginData": {
+        "email" : "musthafamohd17@gmail.com",
+        "password": "musthafa12345"
+    },
+    "UserRegistrationValidData": {
+        "firstName": "Mohammad",
+        "lastName": "Musthafa",
+        "email": "musthafamohd15@gmail.com",
+        "password":"musthafa123"
+    },
+    "UserRegistrationInvalidData": {
+        "firstName": "Mohammad",
+        "lastName": "Musthafa",
+        "email": "musthafamohd0@gmail.com",
+        "password":"musthafa123"
+    },
+    "UpdateData": {
+        "firstName": "Mohd",
+        "lastName": "Musthafa",
+        "email": "musthafamohd0@gmail.com",
+        "password":"musthafa123"
+    }
+}

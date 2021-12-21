@@ -1,0 +1,18 @@
+{
+    "loginDetails": {
+      "email": "musthafamohd17@gmail.com",
+      "password": "musthafa"
+    },
+    "ValidLabelData":{
+      "title": "second Label"
+    },
+    "InvalidLabelData":{
+      "title": ""
+    },
+    "UpdatedLabelData":{
+        "title": "Third Label updated updated"
+    },
+    "UpdatedInvalidLabelData": {
+        "title":""
+    }
+}

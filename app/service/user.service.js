@@ -24,6 +24,7 @@ const { createToken } = require("../utility/user.jwt");
 const { bcryptPass, verifyPass } = require("../utility/user.bcrypt.js");
 const bcrypt = require("bcrypt");
 const {sendMail} = require('../utility/nodemailer')
+const redis = require("../utility/redis/cache");
 
 /**
  * @description extracting details to create a new user in the model
@@ -46,13 +47,20 @@ const createNewUser = (userDetails, callback) => {
 
 /**
  * @description find all the users
- * @param {callback} callback
  * @returns error or data
  */
-const findAllUsers = (callback) => {
-  findUsers((error, data) => {
-    return error ? callback(error, null) : callback(null, data);
-  });
+const findAllUsers = async () => {
+  try {
+    let data = await redis.getUser("user")
+    if(data === null){
+      data = await findUsers();
+      await redis.setUser("user",JSON.stringify(data))
+    }
+    await redis.closeConnection();
+    return JSON.parse(data);
+  } catch (error) {
+    throw error;
+  }
 };
 
 /**

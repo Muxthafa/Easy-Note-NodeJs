@@ -52,13 +52,14 @@ const createUser = (userDetails, callback) => {
 
 /**
  * @description Query to find all users
- * @param {callback} callback
  * @returns error or callback
  */
-const findUsers = (callback) => {
-  return User.find({}, (error, data) => {
-    return error ? callback(error, null) : callback(null, data);
-  });
+const findUsers = async () => {
+  try {
+    return await User.find()
+  } catch (error) {
+    throw error
+  }
 };
 
 /**

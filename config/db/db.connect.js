@@ -14,9 +14,19 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 
 const dbConnect = () => {
+
+  let dbName;
+  if(process.env.NODE_ENV == 'test'){
+    dbName = process.env.MONGO_URL+process.env.TEST_HOST
+  }else if(process.env.NODE_ENV == 'dev'){
+    dbName = process.env.MONGO_URL+process.env.DEV_HOST
+  }else{ 
+    dbName = "mongodb+srv://musthafa:musthafa17@cluster0.tmk6l.mongodb.net/fundooNotes?retryWrites=true&w=majority"
+  }
+
   //connection to mongoDB database
   mongoose
-    .connect(process.env.MONGO_URL, {
+    .connect(dbName, {
       useNewUrlParser: true,
     })
     .then(() => {

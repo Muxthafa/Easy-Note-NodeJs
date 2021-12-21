@@ -26,8 +26,7 @@ const {
  */
 const createNewLabel = async (title, userId) => {
   try {
-    const data = await createLabel(title, userId);
-    return data;
+    return await createLabel(title, userId);
   } catch (error) {
     throw error;
   }

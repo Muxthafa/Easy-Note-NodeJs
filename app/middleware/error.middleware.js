@@ -24,10 +24,9 @@ const { CustomError } = require("../error-handler/custom-error");
 module.exports = (error, req, res, next) => {
   if (error instanceof CustomError) {
     logger.error(`${error.message}, error-code: ` + error.statusCode);
-    return res.status(error.statusCode).json({ msg: error.message, status: error.statusCode });
+    return res.status(error.statusCode).json({ message: error.message, status: error.statusCode });
   }
-  logger.error(`${error.message}, error-code: ` + error.statusCode);
-  return res.status(error.statusCode).json({
-    message: error.message,
+  return res.status(400).json({
+    message: "Error!!!",
   });
 };

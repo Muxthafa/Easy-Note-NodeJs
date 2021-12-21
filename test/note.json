@@ -1,0 +1,22 @@
+{
+    "loginDetails": {
+      "email": "musthafamohd17@gmail.com",
+      "password": "musthafa"
+    },
+    "ValidNoteData":{
+      "title": "second Note",
+      "content": "second Note created"
+    },
+    "InvalidNoteData":{
+      "title": "",
+      "content": ""
+    },
+    "UpdatedNoteData":{
+        "title": "Third Note updated updated", 
+        "content":"Updated"
+    },
+    "UpdatedInvalidNoteData":{
+        "title": "Third note updated", 
+        "content":""
+    }
+}

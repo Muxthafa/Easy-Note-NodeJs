@@ -65,3 +65,5 @@ app.listen(process.env.PORT, () => {
   console.log("Server is listening on port 5000");
   dbConnect()
 });
+
+module.exports = app //for the testing

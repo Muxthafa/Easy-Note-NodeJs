@@ -32,23 +32,23 @@ const create = (req, res, next) => {
   let content = req.body.content;
   let color = req.body.color;
   let userId = req.body.userId
-  console.log(userId);
   createNewNote(title, content,color, userId ,(error, data) => {
     if (error) {
       return next(
         createCustomError("Error occurred while creating the Note.", 500)
       );
     }
-    
+    logger.info(`Created a new note ${data._id}`);
     return res.status(200).json({
       message: "created note successfully",
       createdNote: {
         request: {
-          type: "GET",
-          url: "http://localhost:3000/notes/" + data._id,
+          type: "POST",
+          url: "http://localhost:3000/notes/"
         },
-        Note: data
+        Note: data,
       },
+      
     });
   });
 };
@@ -62,10 +62,8 @@ const create = (req, res, next) => {
  const image = (req, res, next) => {
     handleImage(req,res, (error, data) => {
       if(error){
-        console.log(error);
         res.status(400).send(error)
       }else{
-        console.log(req.file);
         res.status(200).send(req.file)
       }
     })
@@ -89,7 +87,7 @@ const findAll = (req, res, next) => {
         message: "no data found",
       });
     }
-    console.log(data);
+    logger.info(`responded with all notes`)
     const response = {
       count: data.length,
       Notes: data.map((note) => {
@@ -131,6 +129,7 @@ const findOne = (req, res, next) => {
         message: "no data found",
       });
     }
+    logger.info(`responded with the note ${data._id}`)
     res.status(200).send({ Message: "Note found!!!",Note: data });
   });
 };
@@ -157,11 +156,13 @@ const update = (req, res, next) => {
       }
       return next(createCustomError(`no note found with id: ${id}`, 500));
     }
+    
     if (!data) {
      return res.status(404).send({
         message: "no data found",
       });
     }
+    logger.info(`Updated the note ${data._id}`)
     return res.status(200).send({ Message: "Note updated successfully",Note: data });
   });
 };
@@ -186,6 +187,7 @@ const deleteOne = (req, res, next) => {
         message: "no note found",
       });
     }
+    logger.info(`deleted the note ${data._id}`)
     return res.status(200).send({ message: "Note deleted successfully", Note: data });
   });
 };

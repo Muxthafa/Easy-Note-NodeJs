@@ -31,14 +31,15 @@ const create = async (req, res, next) => {
   let userId = req.body.userId;
   try {
     const data = await createNewLabel(title, userId);
+    logger.info(`created a new label ${data._id}`);
     return res.status(200).json({
       message: "created label successfully",
       createdLabel: {
         request: {
-          type: "GET",
-          url: "http://localhost:3000/labels/" + data._id,
+          type: "POST",
+          url: "http://localhost:5000/labels/"
         },
-        Label: data,
+        Label: data
       },
     });
   } catch (error) {
@@ -102,7 +103,8 @@ const findOne = async (req, res, next) => {
         message: "no data found",
       });
     }
-    return res.status(200).send({ Message: "label found!!!", label: data });
+    logger.info(`responded with a label ${data._id}`);
+    return res.status(200).send({ Message: "label found!!!", Label: data });
   } catch (error) {
     return next(createCustomError(`no label found with id: ${id}`, 500));
   }
@@ -125,6 +127,7 @@ const update = async (req, res, next) => {
         message: "no data found",
       });
     }
+    logger.info(`Updated the label ${data._id}`);
     return res
       .status(200)
       .send({ Message: "label updated successfully", label: data });
@@ -154,9 +157,10 @@ const deleteOne = async (req, res, next) => {
           message: "no label found",
         });
       }
+      logger.info(`deleted the label ${data._id}`);
       return res
       .status(200)
-      .send({ message: "label deleted successfully", label: data})
+      .send({ message: "Label deleted successfully", label: data})
   } catch (error) {
     return next(
         createCustomError(`could not delete the label with id: ${id}`, 500)

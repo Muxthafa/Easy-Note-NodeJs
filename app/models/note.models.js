@@ -11,6 +11,11 @@
  **************************************************************************/
 
 const mongoose = require("mongoose");
+const logger = require("../../config/logger");
+
+const { promisify } = require("util");
+const fs = require("fs");
+const unlinkAsync = promisify(fs.unlink);
 
 //creation of schema for note collection
 const NoteSchema = mongoose.Schema(
@@ -106,13 +111,12 @@ const findSingleNoteAndUpdate = (
 ) => {
   return Note.findOne({ userId: userId, _id: id }, (error, data) => {
     if (error) {
-      console.log(error);
       callback(error, null);
     }
     if (!data) {
       callback("No note found", null);
     }
-    console.log(data);
+
     return Note.findByIdAndUpdate(
       id,
       { title: title, content: content, color: color, image:image,isTrash: isTrash },
@@ -139,6 +143,14 @@ const findAndRemove = (id, userId, callback) => {
     if (!data) {
       return callback("No note found", null);
     }
+    unlinkAsync(
+      `C:\\Users\\mohammad.musthafa_ym\\Desktop\\notes-node-project\\uploads\\${data.image}`,
+      (err, res) => {
+       if (err) {
+        logger.error(err);
+       }
+      }
+     );
     return callback(null, data);
   });
 };
