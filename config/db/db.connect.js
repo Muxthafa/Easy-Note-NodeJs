@@ -34,7 +34,6 @@ const dbConnect = () => {
     })
     .catch((err) => {
       console.log("Could not connect to the database. Exiting now...", err);
-      logger.error("error in connecting to database");
       process.exit();
     });
 };
