@@ -27,9 +27,7 @@ const cors = require('cors')
 require('dotenv').config()
 
 app.use(
-  cors({
-    origin: "http://localhost:3000"
-  })
+  cors()
 )
 //middleware function to parse incoming post requests
 app.use(

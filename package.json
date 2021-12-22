@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha --exit --inspect=0.0.0.0:9229",
-    "start": "SET NODE_ENV=dev && nodemon index.js",
+    "start": "nodemon index.js",
     "jest": "jest --watchAll"
   },
   "keywords": [],

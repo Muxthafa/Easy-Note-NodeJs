@@ -21,7 +21,7 @@ const dbConnect = () => {
   }else if(process.env.NODE_ENV == 'dev'){
     dbName = process.env.MONGO_URL+process.env.DEV_HOST
   }else{ 
-    dbName = "mongodb+srv://musthafa:musthafa17@cluster0.tmk6l.mongodb.net/fundooNotes?retryWrites=true&w=majority"
+    dbName = process.env.MONGO_URI
   }
 
   //connection to mongoDB database
